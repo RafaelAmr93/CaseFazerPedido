@@ -1,8 +1,9 @@
 package rafalamaro.casefazerpedido
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 
 class PlaceOrderViewModel() : ViewModel() {
 
-    val testString = "teste view model"
+    internal val clientName = TextFieldState()
 }

@@ -7,4 +7,6 @@
     <string name="order_symbol">#%d</string>
     <string name="total_sales">Total de vendas:</string>
     <string name="money_symbol">R$ %d</string>
+    <string name="client_name">Nome do cliente:</string>
+    <string name="characters_forbidden">Apenas letras são permitidas.</string>
 </resources>
