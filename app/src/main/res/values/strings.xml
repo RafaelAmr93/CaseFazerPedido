@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CaseFazerPedido</string>
+    <string name="main_screen_title">Case Fazer Pedido</string>
+    <string name="order_history_button_label">Histórico de pedidos</string>
+    <string name="place_order_button_label">Fazer pedido</string>
+    <string name="total_orders">Pedidos feitos</string>
+    <string name="order_symbol">#%d</string>
+    <string name="total_sales">Total de vendas:</string>
+    <string name="money_symbol">R$ %d</string>
 </resources>
