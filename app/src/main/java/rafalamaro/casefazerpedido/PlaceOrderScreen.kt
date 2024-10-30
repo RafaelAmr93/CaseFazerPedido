@@ -3,8 +3,11 @@ package rafalamaro.casefazerpedido
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -40,59 +43,120 @@ import rafalamaro.casefazerpedido.ui.theme.Typography
 internal fun PlaceOrderScreen(
     viewModel: PlaceOrderViewModel = koinViewModel()
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
+            .padding(
+                vertical = 24.dp,
+                horizontal = 20.dp
+            ),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ClientName(viewModel.clientName)
+        ProductName(viewModel.productName)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            ProductQuantity(viewModel.productQuantity)
+            ProductValue(viewModel.productValue)
+        }
+        ProductDescription(viewModel.productDescription)
+        FooterButtons(
+            text = stringResource(R.string.place_product_button_label),
+            onClick = {}
+        )
     }
 }
 
 @Composable
 private fun ClientName(fieldState: TextFieldState) {
+    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
     CustomBaseTextField(
         fieldName = stringResource(R.string.client_name),
-        fieldState = fieldState
+        fieldState = fieldState,
+        transformation = transformationTextOnly { forbiddenCharactersTyped = true },
+        forbiddenCharactersTyped = forbiddenCharactersTyped
+    )
+}
+
+@Composable
+private fun ProductName(fieldState: TextFieldState) {
+    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
+    CustomBaseTextField(
+        fieldName = stringResource(R.string.product_name),
+        fieldState = fieldState,
+        transformation = transformationTextOnly { forbiddenCharactersTyped = true },
+        forbiddenCharactersTyped = forbiddenCharactersTyped
+    )
+}
+
+@Composable
+private fun RowScope.ProductQuantity(fieldState: TextFieldState) {
+    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
+    CustomBaseTextField(
+        fieldName = stringResource(R.string.product_quantity),
+        fieldState = fieldState,
+        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        forbiddenCharactersTyped = forbiddenCharactersTyped,
+        modifier = Modifier.weight(1f)
+    )
+}
+
+@Composable
+private fun RowScope.ProductValue(fieldState: TextFieldState) {
+    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
+    CustomBaseTextField(
+        fieldName = stringResource(R.string.product_price),
+        fieldState = fieldState,
+        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        forbiddenCharactersTyped = forbiddenCharactersTyped,
+        modifier = Modifier.weight(1f)
+    )
+}
+
+@Composable
+private fun ProductDescription(fieldState: TextFieldState) {
+    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
+    CustomBaseTextField(
+        fieldName = stringResource(R.string.product_description),
+        fieldState = fieldState,
+        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        forbiddenCharactersTyped = forbiddenCharactersTyped
     )
 }
 
 @Composable
 private fun CustomBaseTextField(
     fieldName: String,
-    fieldState: TextFieldState
+    fieldState: TextFieldState,
+    transformation: InputTransformation,
+    forbiddenCharactersTyped: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
-    Column(
-        modifier = Modifier.padding(horizontal = 20.dp)
-    ) {
-        Text(
-            text = fieldName,
-            style = Typography.bodyMedium
-        )
-        BasicTextField(
-            state = fieldState,
-            decorator = { innerTextField ->
-                BaseLine(
-                    innerTextField = innerTextField,
-                    onClearText = fieldState::clearText
-                )
-            },
-            inputTransformation = InputTransformation.byValue { current, proposed ->
-                if (proposed.all { it.isLetter() || it.isWhitespace() }) {
-                    proposed
-                } else {
-                    forbiddenCharactersTyped = true
-                    current
-                }
-            }
-        )
-        if (forbiddenCharactersTyped) {
+    Box(modifier = modifier) {
+        Column {
             Text(
-                text = stringResource(R.string.characters_forbidden),
-                style = Typography.bodySmall,
-                color = Color.Red
+                text = fieldName,
+                style = Typography.bodyMedium
             )
+            BasicTextField(
+                state = fieldState,
+                decorator = { innerTextField ->
+                    BaseLine(
+                        innerTextField = innerTextField,
+                        onClearText = fieldState::clearText
+                    )
+                },
+                inputTransformation = transformation
+            )
+            if (forbiddenCharactersTyped) {
+                Text(
+                    text = stringResource(R.string.characters_forbidden),
+                    style = Typography.bodySmall,
+                    color = Color.Red
+                )
+            }
         }
     }
 }
@@ -123,13 +187,33 @@ private fun BaseLine(
                 onClick = { onClearText() },
                 indication = ripple(),
                 interactionSource = remember { MutableInteractionSource() }
-            )
+            ),
+        tint = Color.LightGray
     )
     innerTextField()
 }
 
+private fun transformationTextOnly(
+    callback: () -> Unit
+) = InputTransformation.byValue { current, proposed ->
+    if (proposed.all { it.isLetter() || it.isWhitespace() }) {
+        proposed
+    } else {
+        callback()
+        current
+    }
+}
 
-
+private fun transformationDigitsOnly(
+    callback: () -> Unit
+) = InputTransformation.byValue { current, proposed ->
+    if (proposed.all { it.isDigit() || it == ',' || it == '.'}) {
+        proposed
+    } else {
+        callback()
+        current
+    }
+}
 
 @Composable
 @Preview

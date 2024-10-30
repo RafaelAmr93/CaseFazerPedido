@@ -6,7 +6,13 @@
     <string name="total_orders">Pedidos feitos</string>
     <string name="order_symbol">#%d</string>
     <string name="total_sales">Total de vendas:</string>
-    <string name="money_symbol">R$ %d</string>
+    <string name="money_symbol">R$ %.2f</string>
     <string name="client_name">Nome do cliente:</string>
-    <string name="characters_forbidden">Apenas letras são permitidas.</string>
+    <string name="characters_forbidden">Caractere não permitido.</string>
+    <string name="product_name">Nome do produto:</string>
+    <string name="product_quantity">Quantidade:</string>
+    <string name="product_price">Preço:</string>
+    <string name="product_description">Descrição</string>
+    <string name="place_product_button_label">Incluir produto</string>
+    <string name="product_quantity_ab">Qntd.:</string>
 </resources>

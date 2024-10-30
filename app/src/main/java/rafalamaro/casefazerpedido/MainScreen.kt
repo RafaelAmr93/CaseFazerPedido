@@ -143,7 +143,7 @@ private fun TotalSales() {
 }
 
 @Composable
-private fun FooterButtons(
+internal fun FooterButtons(
     text: String,
     onClick: () -> Unit
 ) {
