@@ -15,4 +15,7 @@
     <string name="product_description">Descrição</string>
     <string name="place_product_button_label">Incluir produto</string>
     <string name="product_quantity_ab">Qntd.:</string>
+    <string name="product_list_title">Lista de produtos</string>
+    <string name="order_history_title">Histórico de pedidos</string>
+    <string name="current_order_number">Pedido: #%d</string>
 </resources>

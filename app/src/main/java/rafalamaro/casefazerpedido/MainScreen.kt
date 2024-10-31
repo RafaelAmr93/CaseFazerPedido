@@ -125,7 +125,7 @@ private fun TotalSales() {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        val tempNumber = 10
+        val tempNumber = 10f
         Text(
             text = stringResource(R.string.total_sales),
             style = Typography.titleMedium
