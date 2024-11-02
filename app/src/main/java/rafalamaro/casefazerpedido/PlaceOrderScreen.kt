@@ -22,9 +22,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,41 +36,93 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.context.GlobalContext.startKoin
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable
 internal fun PlaceOrderScreen(
-    viewModel: PlaceOrderViewModel = koinViewModel()
+    onOrderPlaced: (Boolean) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .padding(
-                vertical = 24.dp,
-                horizontal = 20.dp
-            ),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        ClientName(viewModel.clientName)
-        ProductName(viewModel.productName)
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+    val viewModel: PlaceOrderViewModel = koinViewModel()
+    val uiState by viewModel.productsList.collectAsState()
+    val snackBarState by viewModel.snackBarState.collectAsState()
+    var showSnackBar by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+
+    LaunchedEffect(snackBarState) {
+        showSnackBar = true
+        delay(3000)
+        showSnackBar = false
+    }
+
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(
+                    vertical = 24.dp,
+                    horizontal = 20.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ProductQuantity(viewModel.productQuantity)
-            ProductValue(viewModel.productValue)
+            ClientName(viewModel.clientName)
+            ProductName(viewModel.productName)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ProductQuantity(viewModel.productQuantity)
+                ProductValue(viewModel.productValue)
+            }
+            ProductDescription(viewModel.productDescription)
+            FooterButtons(
+                text = stringResource(R.string.place_product_button_label),
+                onClick = {
+                    if (viewModel.checkForEmptyField()) {
+                        viewModel.addProduct()
+                    } else {
+                        viewModel.updateSnackBarState(SnackBarType.MissingFields)
+                    }
+
+                    viewModel.clearAllText()
+                }
+            )
+            FooterButtons(
+                text = stringResource(R.string.place_order_button_label),
+                onClick = {
+                    if (viewModel.isProductsListEmpty()) {
+                        viewModel.updateSnackBarState(SnackBarType.EmptyProductsList)
+                    } else {
+                        viewModel.placeOrder()
+                        onOrderPlaced(true)
+                    }
+                }
+            )
+
+            //ARRUMAR PRA ACEITAR CAMPO VAZIO? VALIDAR
+            // precisa do botão pra fazer o pedido
+            // validação dos campos
+            when (uiState) {
+                is ProductsListUiState.Loaded -> {
+                    ProductList(viewModel.getLatestList())
+                }
+
+                else -> Unit
+            }
+
         }
-        ProductDescription(viewModel.productDescription)
-        FooterButtons(
-            text = stringResource(R.string.place_product_button_label),
-            onClick = {}
-        )
+        Box(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
+            if (showSnackBar) {
+                snackBarState?.let { SnackBarComponent(it) }
+            }
+        }
     }
 }
+
+
 
 @Composable
 private fun ClientName(fieldState: TextFieldState) {
@@ -121,7 +176,7 @@ private fun ProductDescription(fieldState: TextFieldState) {
     CustomBaseTextField(
         fieldName = stringResource(R.string.product_description),
         fieldState = fieldState,
-        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        transformation = transformationTextOnly { forbiddenCharactersTyped = true },
         forbiddenCharactersTyped = forbiddenCharactersTyped
     )
 }
@@ -213,13 +268,4 @@ private fun transformationDigitsOnly(
         callback()
         current
     }
-}
-
-@Composable
-@Preview
-private fun PlaceOrderScreenPreview() {
-    startKoin {
-        modules(appModule)
-    }
-    PlaceOrderScreen()
 }

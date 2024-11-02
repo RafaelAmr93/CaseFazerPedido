@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id(libs.plugins.kotlin.kapt.get().pluginId)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -69,4 +69,7 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.navigation)
     implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.gson)
+    kapt(libs.room.compiler)
 }

@@ -22,9 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import rafalamaro.casefazerpedido.model.ProductModel
 
 @Composable
-internal fun ProductList(productList: List<ProductModel>) {
+internal fun ProductList(productsList: List<ProductModel>) {
     val listListState = rememberLazyListState()
     val showGotoTop by remember { derivedStateOf { listListState.firstVisibleItemIndex > 0 } }
     val scope = rememberCoroutineScope()
@@ -36,9 +37,9 @@ internal fun ProductList(productList: List<ProductModel>) {
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            itemsIndexed(productList) { index, product ->
+            itemsIndexed(productsList) { index, product ->
                 ProductComponent(product)
-                if (index < productList.lastIndex) ListDivider()
+                if (index < productsList.lastIndex) ListDivider()
             }
             item {
                 HorizontalDivider(color = Color.White,thickness = 10.dp)

@@ -18,4 +18,8 @@
     <string name="product_list_title">Lista de produtos</string>
     <string name="order_history_title">Histórico de pedidos</string>
     <string name="current_order_number">Pedido: #%d</string>
+    <string name="product_added">Produto adicionado na lista.</string>
+    <string name="missing_fields">Todos os campos devem ser preenchidos.</string>
+    <string name="empty_products_list">A lista de produtos está vazia.</string>
+    <string name="order_placed_successfully">Pedido feito com sucesso.</string>
 </resources>
