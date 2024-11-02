@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.sp
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable
-internal fun MainScreen() {
+internal fun MainScreen(
+    onNavigateToOrderHistory: () -> Unit,
+    onNavigateToPlaceOrder: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +39,10 @@ internal fun MainScreen() {
     ) {
         Header()
         Body()
-        Footer()
+        Footer(
+            onNavigateToOrderHistory = onNavigateToOrderHistory,
+            onNavigateToPlaceOrder = onNavigateToPlaceOrder
+        )
     }
 }
 
@@ -76,7 +82,10 @@ private fun BoxScope.Body() {
 }
 
 @Composable
-private fun BoxScope.Footer() {
+private fun BoxScope.Footer(
+    onNavigateToOrderHistory: () -> Unit,
+    onNavigateToPlaceOrder: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier
@@ -89,11 +98,15 @@ private fun BoxScope.Footer() {
     ) {
         FooterButtons(
             text = stringResource(R.string.order_history_button_label),
-            onClick = {}
+            onClick = {
+                onNavigateToOrderHistory()
+            }
         )
         FooterButtons(
             text = stringResource(R.string.place_order_button_label),
-            onClick = {}
+            onClick = {
+                onNavigateToPlaceOrder()
+            }
         )
     }
 }
@@ -170,5 +183,5 @@ internal fun FooterButtons(
 @Composable
 @Preview
 private fun MainScreenPreview() {
-    MainScreen()
+    MainScreen({},{})
 }
