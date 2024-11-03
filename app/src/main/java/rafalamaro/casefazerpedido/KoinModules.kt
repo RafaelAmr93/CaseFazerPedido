@@ -8,6 +8,7 @@ import rafalamaro.casefazerpedido.database.AppDatabase
 import rafalamaro.casefazerpedido.database.DatabaseProvider
 import rafalamaro.casefazerpedido.datasource.IOrdersHistoryLocalDatasource
 import rafalamaro.casefazerpedido.datasource.OrdersHistoryLocalDatasourceImpl
+import rafalamaro.casefazerpedido.viewmodels.PlaceOrderViewModel
 
 val appModule = module {
     single {

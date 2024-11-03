@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.uiStates
 
 import rafalamaro.casefazerpedido.model.ProductModel
 

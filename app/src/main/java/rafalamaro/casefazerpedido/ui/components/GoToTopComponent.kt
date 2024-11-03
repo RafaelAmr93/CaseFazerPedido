@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

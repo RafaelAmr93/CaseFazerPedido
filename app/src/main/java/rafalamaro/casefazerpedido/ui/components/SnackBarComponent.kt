@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable

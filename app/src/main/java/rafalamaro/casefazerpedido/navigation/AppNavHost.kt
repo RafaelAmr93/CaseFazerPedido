@@ -10,9 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import rafalamaro.casefazerpedido.MainScreen
-import rafalamaro.casefazerpedido.OrderHistoryScreen
-import rafalamaro.casefazerpedido.PlaceOrderScreen
+import rafalamaro.casefazerpedido.ui.screens.MainScreen
+import rafalamaro.casefazerpedido.ui.screens.OrderHistoryScreen
+import rafalamaro.casefazerpedido.ui.screens.PlaceOrderScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {

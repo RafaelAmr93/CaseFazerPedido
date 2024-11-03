@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

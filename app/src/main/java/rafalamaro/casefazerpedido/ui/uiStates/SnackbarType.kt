@@ -1,6 +1,7 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.uiStates
 
 import androidx.compose.ui.graphics.Color
+import rafalamaro.casefazerpedido.R
 
 sealed class SnackBarType(val message: Int, val labelColor: Color) {
     data object ProductAdded : SnackBarType(R.string.product_added, Color.Green)

@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.viewmodels
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
@@ -12,6 +12,8 @@ import rafalamaro.casefazerpedido.datasource.IOrdersHistoryLocalDatasource
 import rafalamaro.casefazerpedido.model.OrderModel
 import rafalamaro.casefazerpedido.model.ProductModel
 import rafalamaro.casefazerpedido.model.ProductsListModel
+import rafalamaro.casefazerpedido.ui.uiStates.ProductsListUiState
+import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 
 class PlaceOrderViewModel(
     private val ordersHistoryLocalDatasource: IOrdersHistoryLocalDatasource,
@@ -25,7 +27,8 @@ class PlaceOrderViewModel(
 
     private var productBeingAdded: ProductModel? = null
 
-    private val _productsList: MutableStateFlow<ProductsListUiState> = MutableStateFlow(ProductsListUiState.Loading)
+    private val _productsList: MutableStateFlow<ProductsListUiState> = MutableStateFlow(
+        ProductsListUiState.Loading)
     val productsList = _productsList.asStateFlow()
 
     private val _snackBarState: MutableStateFlow<SnackBarType?> = MutableStateFlow(null)

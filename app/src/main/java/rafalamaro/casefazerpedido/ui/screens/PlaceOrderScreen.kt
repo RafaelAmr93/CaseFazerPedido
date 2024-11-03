@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +39,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
+import rafalamaro.casefazerpedido.viewmodels.PlaceOrderViewModel
+import rafalamaro.casefazerpedido.ui.components.ProductList
+import rafalamaro.casefazerpedido.ui.uiStates.ProductsListUiState
+import rafalamaro.casefazerpedido.R
+import rafalamaro.casefazerpedido.ui.components.SnackBarComponent
+import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable

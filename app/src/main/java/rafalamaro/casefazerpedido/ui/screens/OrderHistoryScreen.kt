@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido
+package rafalamaro.casefazerpedido.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import rafalamaro.casefazerpedido.ui.components.ProductList
+import rafalamaro.casefazerpedido.R
+import rafalamaro.casefazerpedido.ui.components.productList
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable
