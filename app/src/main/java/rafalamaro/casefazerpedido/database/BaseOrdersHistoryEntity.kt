@@ -7,15 +7,13 @@ import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
 import rafalamaro.casefazerpedido.model.OrderModel
 import rafalamaro.casefazerpedido.model.ProductsListModel
 
-@Entity(tableName = "orders")
-data class OrdersHistoryEntity(
+@Entity
+data class BaseOrdersHistoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo("client_name") val clientName: String,
-    @ColumnInfo("products_list") val productsList: ProductsListModel
+    @ColumnInfo("client_name") val clientName: String
 )
 
-fun OrdersHistoryEntity.toModel() = OrderModel(
-    id = this.id,
+fun BaseOrdersHistoryEntity.toModel() = BaseOrderHistoryModel(
+    orderNumber = this.id,
     clientName = this.clientName,
-    productsList = this.productsList
 )

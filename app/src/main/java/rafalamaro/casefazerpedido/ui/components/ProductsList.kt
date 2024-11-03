@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -26,13 +25,13 @@ import rafalamaro.casefazerpedido.model.ProductModel
 
 @Composable
 internal fun ProductList(productsList: List<ProductModel>) {
-    val listListState = rememberLazyListState()
-    val showGotoTop by remember { derivedStateOf { listListState.firstVisibleItemIndex > 0 } }
+    val listState = rememberLazyListState()
+    val showGotoTop by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val scope = rememberCoroutineScope()
 
     Box(contentAlignment = Alignment.BottomCenter) {
         LazyColumn(
-            state = listListState,
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
@@ -49,22 +48,11 @@ internal fun ProductList(productsList: List<ProductModel>) {
         AnimatedVisibility(visible = showGotoTop, enter = fadeIn(), exit = fadeOut()) {
             BackToTopButton {
                 scope.launch {
-                    listListState.scrollToItem(0)
+                    listState.scrollToItem(0)
                 }
             }
         }
     }
-}
-
-@Composable
-private fun ListDivider() {
-    HorizontalDivider(
-        thickness = 1.dp,
-        color = Color.LightGray,
-        modifier = Modifier
-            .background(Color.White)
-            .padding(vertical = 3.dp)
-    )
 }
 
 @Composable

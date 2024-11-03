@@ -22,4 +22,5 @@
     <string name="missing_fields">Todos os campos devem ser preenchidos.</string>
     <string name="empty_products_list">A lista de produtos está vazia.</string>
     <string name="order_placed_successfully">Pedido feito com sucesso.</string>
+    <string name="see_details">Ver detalhes</string>
 </resources>
