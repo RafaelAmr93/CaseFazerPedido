@@ -15,6 +15,6 @@ internal fun ListDivider() {
         color = Color.LightGray,
         modifier = Modifier
             .background(Color.White)
-            .padding(vertical = 10.dp)
+            .padding(vertical = 5.dp)
     )
 }

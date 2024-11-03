@@ -114,7 +114,7 @@ private fun OrderComponent(
 }
 
 @Composable
-fun OrderHistoryTitle() {
+private fun OrderHistoryTitle() {
     Text(
         stringResource(R.string.order_history_title),
         style = Typography.titleLarge,

@@ -30,7 +30,7 @@ internal fun CommonButton(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 10.dp, shape = RoundedCornerShape(12.dp))
+            .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
             .background(type.color)
             .clickable(
                 onClick = { onClick() },
@@ -39,7 +39,7 @@ internal fun CommonButton(
             )
     ) {
         Text(
-            text = text,
+            text = text.uppercase(),
             style = Typography.titleMedium,
             modifier = Modifier.padding(vertical = 12.dp)
         )

@@ -12,6 +12,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,12 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 import rafalamaro.casefazerpedido.R
 import rafalamaro.casefazerpedido.ui.components.CommonButton
 import rafalamaro.casefazerpedido.ui.components.SnackBarComponent
 import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.ui.uiStates.ButtonType
+import rafalamaro.casefazerpedido.viewmodels.MainScreenViewModel
 
 @Composable
 internal fun MainScreen(
@@ -38,6 +41,9 @@ internal fun MainScreen(
     onNavigateToPlaceOrder: () -> Unit,
     orderPlaced: Boolean
 ) {
+    val viewModel: MainScreenViewModel = koinViewModel()
+    val ordersCount by viewModel.ordersCount.collectAsState()
+    val totalSales by viewModel.totalSales.collectAsState()
     var showSnackBar by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -54,7 +60,10 @@ internal fun MainScreen(
             .background(color = Color.White)
     ) {
         Header()
-        Body()
+        Body(
+            ordersCount,
+            totalSales
+        )
         Footer(
             onNavigateToOrderHistory = onNavigateToOrderHistory,
             onNavigateToPlaceOrder = onNavigateToPlaceOrder
@@ -90,15 +99,18 @@ private fun BoxScope.Header() {
 }
 
 @Composable
-private fun BoxScope.Body() {
+private fun BoxScope.Body(
+    ordersCount: Int,
+    totalSales: Double
+) {
     Column(
         modifier = Modifier
             .align(Alignment.Center)
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        TotalOrders()
-        TotalSales()
+        TotalOrders(ordersCount)
+        TotalSales(totalSales)
     }
 }
 
@@ -135,17 +147,16 @@ private fun BoxScope.Footer(
 }
 
 @Composable
-private fun TotalOrders() {
+private fun TotalOrders(ordersCount: Int) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        val tempNumber = 10
         Text(
             text = stringResource(R.string.total_orders),
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(R.string.order_symbol, tempNumber),
+            text = stringResource(R.string.order_symbol, ordersCount),
             fontSize = 50.sp,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
@@ -157,17 +168,16 @@ private fun TotalOrders() {
 }
 
 @Composable
-private fun TotalSales() {
+private fun TotalSales(value: Double) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        val tempNumber = 10f
         Text(
             text = stringResource(R.string.total_sales),
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(R.string.money_symbol, tempNumber),
+            text = stringResource(R.string.money_symbol, value),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontSize = 50.sp

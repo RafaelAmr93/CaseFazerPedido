@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +31,7 @@ import rafalamaro.casefazerpedido.ui.components.ProductList
 import rafalamaro.casefazerpedido.ui.components.SnackBarComponent
 import rafalamaro.casefazerpedido.ui.components.transformationDigitsOnly
 import rafalamaro.casefazerpedido.ui.components.transformationTextOnly
+import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.ui.uiStates.ButtonType
 import rafalamaro.casefazerpedido.ui.uiStates.ProductsListUiState
 import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
@@ -47,57 +49,73 @@ internal fun PlaceOrderScreen(
     LaunchedEffect(snackBarState) {
         showSnackBar = true
         delay(3000)
-        showSnackBar = false
+        showSnackBar = !showSnackBar
+        viewModel.updateSnackBarState(null)
     }
 
     Box {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White)
-                .padding(
-                    vertical = 24.dp,
-                    horizontal = 20.dp
-                ),
+                .background(color = Color.White),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            ClientName(viewModel.clientName)
-            ProductName(viewModel.productName)
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                modifier = Modifier
+                    .background(color = Color.White)
+                    .padding(
+                        vertical = 20.dp,
+                        horizontal = 20.dp
+                    ),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                ProductQuantity(viewModel.productQuantity)
-                ProductValue(viewModel.productValue)
-            }
-            ProductDescription(viewModel.productDescription)
-            CommonButton(
-                text = stringResource(R.string.place_product_button_label),
-                onClick = {
-                    if (viewModel.checkForEmptyField()) {
-                        viewModel.addProduct()
-                    } else {
-                        viewModel.updateSnackBarState(SnackBarType.MissingFields)
-                    }
-                    viewModel.clearAllText()
-                },
-                type = ButtonType.Standard
-            )
-            CommonButton(
-                text = stringResource(R.string.place_order_button_label),
-                onClick = {
-                    if (viewModel.isProductsListEmpty()) {
-                        viewModel.updateSnackBarState(SnackBarType.EmptyProductsList)
-                    } else {
-                        viewModel.placeOrder()
-                        onOrderPlaced(true)
-                    }
-                },
-                type = ButtonType.Primary
-            )
+                ClientName(viewModel.clientName)
+                ProductName(viewModel.productName)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    ProductQuantity(viewModel.productQuantity)
+                    ProductValue(viewModel.productValue)
+                }
+                ProductDescription(viewModel.productDescription)
+                CommonButton(
+                    text = stringResource(R.string.place_product_button_label),
+                    onClick = {
+                        if (viewModel.checkForEmptyField()) {
+                            viewModel.addProduct()
+                            viewModel.updateSnackBarState(SnackBarType.ProductAdded)
+                        } else {
+                            viewModel.updateSnackBarState(SnackBarType.MissingFields)
+                        }
+                        viewModel.clearAllText()
+                    },
+                    type = ButtonType.Standard
+                )
+                CommonButton(
+                    text = stringResource(R.string.place_order_button_label),
+                    onClick = {
+                        if (viewModel.isProductsListEmpty()) {
+                            viewModel.updateSnackBarState(SnackBarType.EmptyProductsList)
+                        } else {
+                            viewModel.placeOrder()
+                            onOrderPlaced(true)
+                        }
+                    },
+                    type = ButtonType.Primary
+                )
 
-            //ARRUMAR PRA ACEITAR CAMPO VAZIO? VALIDAR
-            // precisa do botão pra fazer o pedido
-            // validação dos campos
+                Text(
+                    text = stringResource(R.string.itens_quantity, viewModel.getLatestList().size),
+                    style = Typography.bodyLarge
+                )
+                Text(
+                    text = stringResource(
+                        R.string.total_itens_value,
+                        viewModel.getOrderTotalValue()
+                    ),
+                    style = Typography.bodyLarge
+                )
+            }
             when (uiState) {
                 is ProductsListUiState.Loaded -> {
                     ProductList(viewModel.getLatestList())
@@ -105,8 +123,8 @@ internal fun PlaceOrderScreen(
 
                 else -> Unit
             }
-
         }
+
         Box(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
             if (showSnackBar) {
                 snackBarState?.let { SnackBarComponent(it) }
@@ -171,5 +189,3 @@ private fun ProductDescription(fieldState: TextFieldState) {
         forbiddenCharactersTyped = forbiddenCharactersTyped
     )
 }
-
-

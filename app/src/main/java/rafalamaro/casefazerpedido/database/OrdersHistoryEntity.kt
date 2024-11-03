@@ -3,7 +3,6 @@ package rafalamaro.casefazerpedido.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
 import rafalamaro.casefazerpedido.model.OrderModel
 import rafalamaro.casefazerpedido.model.ProductsListModel
 
@@ -11,11 +10,13 @@ import rafalamaro.casefazerpedido.model.ProductsListModel
 data class OrdersHistoryEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo("client_name") val clientName: String,
-    @ColumnInfo("products_list") val productsList: ProductsListModel
+    @ColumnInfo("products_list") val productsList: ProductsListModel,
+    @ColumnInfo("order_total_value") val orderTotalValue: Double
 )
 
 fun OrdersHistoryEntity.toModel() = OrderModel(
     id = this.id,
     clientName = this.clientName,
-    productsList = this.productsList
+    productsList = this.productsList,
+    orderTotalValue = this.orderTotalValue
 )

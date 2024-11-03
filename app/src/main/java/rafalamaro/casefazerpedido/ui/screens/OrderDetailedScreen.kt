@@ -12,13 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
 import rafalamaro.casefazerpedido.R
 import rafalamaro.casefazerpedido.ui.components.ProductList
-import rafalamaro.casefazerpedido.ui.components.productList
 import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.viewmodels.OrderHistoryListViewModel
 
@@ -40,7 +38,6 @@ fun OrderDetailedScreen(orderNumber: Int) {
             orderModel.value?.id ?: 0,
             orderModel.value?.clientName ?: ""
         )
-        ProductListTitle()
         ProductList(orderModel.value?.productsList?.productsList ?: emptyList())
     }
 }
@@ -57,15 +54,6 @@ fun CurrentOrderNumber(
     Text(
         text = clientName,
         style = Typography.bodyMedium
-    )
-}
-
-@Composable
-private fun ProductListTitle() {
-    Text(
-        stringResource(R.string.product_list_title),
-        style = Typography.titleMedium,
-        textAlign = TextAlign.Center
     )
 }
 

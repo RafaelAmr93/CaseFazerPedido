@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -19,12 +20,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 import rafalamaro.casefazerpedido.ui.theme.Typography
+import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 
 @Composable
 fun SnackBarComponent(type: SnackBarType) {
-    Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp)) {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 24.dp, vertical = 20.dp)
+            .imePadding()
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -32,7 +37,7 @@ fun SnackBarComponent(type: SnackBarType) {
                     elevation = 8.dp,
                     shape = RoundedCornerShape(16.dp)
                 )
-                .background(Color.LightGray)
+                .background(Color.White)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

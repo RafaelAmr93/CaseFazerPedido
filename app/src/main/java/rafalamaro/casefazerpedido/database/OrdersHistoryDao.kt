@@ -3,6 +3,7 @@ package rafalamaro.casefazerpedido.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrdersHistoryDao {
@@ -14,4 +15,10 @@ interface OrdersHistoryDao {
 
     @Insert
     fun insertOrder(order: OrdersHistoryEntity)
+
+    @Query("SELECT count(*) FROM orders")
+    fun getOrdersCount(): Flow<Int>
+
+    @Query("SELECT sum(o.order_total_value) FROM orders o")
+    fun getTotalSales(): Flow<Double>
 }

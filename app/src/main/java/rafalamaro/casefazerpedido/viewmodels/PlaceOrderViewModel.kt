@@ -28,14 +28,12 @@ class PlaceOrderViewModel(
     private var productBeingAdded: ProductModel? = null
 
     private val _productsList: MutableStateFlow<ProductsListUiState> = MutableStateFlow(
-        ProductsListUiState.Loading)
+        ProductsListUiState.Empty
+    )
     val productsList = _productsList.asStateFlow()
 
     private val _snackBarState: MutableStateFlow<SnackBarType?> = MutableStateFlow(null)
     val snackBarState = _snackBarState.asStateFlow()
-
-    private var _allowPlaceProduct: Boolean = false
-    internal val allowPlaceProduct: Boolean = _allowPlaceProduct
 
     // Place order
     internal fun placeOrder() {
@@ -44,14 +42,15 @@ class PlaceOrderViewModel(
                 clientName = clientName.text.toString(),
                 productsList = ProductsListModel(
                     productsList = getLatestList()
-                )
+                ),
+                orderTotalValue = getOrderTotalValue()
             )
             ordersHistoryLocalDatasource.insertOrder(order)
         }
     }
 
     // SnackBar manager
-    internal fun updateSnackBarState(type: SnackBarType) {
+    internal fun updateSnackBarState(type: SnackBarType?) {
         _snackBarState.value = type
     }
 
@@ -74,7 +73,7 @@ class PlaceOrderViewModel(
     }
 
     internal fun isProductsListEmpty(): Boolean {
-        return (_productsList.value as ProductsListUiState.Loaded).list.isEmpty()
+        return (_productsList.value is ProductsListUiState.Empty)
     }
 
     internal fun getLatestList(): List<ProductModel> {
@@ -85,6 +84,9 @@ class PlaceOrderViewModel(
         }
     }
 
+    internal fun getOrderTotalValue(): Double {
+        return getLatestList().sumOf { it.value * it.quantity }
+    }
 
     // Text Field methods
     internal fun clearAllText() {
@@ -100,9 +102,5 @@ class PlaceOrderViewModel(
             productQuantity.text.isNotEmpty() &&
             productValue.text.isNotEmpty() &&
             productDescription.text.isNotEmpty()
-    }
-
-    internal fun resetAllowPlaceProduct() {
-        _allowPlaceProduct = false
     }
 }

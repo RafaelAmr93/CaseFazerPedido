@@ -23,4 +23,6 @@
     <string name="empty_products_list">A lista de produtos está vazia.</string>
     <string name="order_placed_successfully">Pedido feito com sucesso.</string>
     <string name="see_details">Ver detalhes</string>
+    <string name="itens_quantity">Quantidade de itens: %d</string>
+    <string name="total_itens_value">Valor total do pedido: R$ %.2f</string>
 </resources>
