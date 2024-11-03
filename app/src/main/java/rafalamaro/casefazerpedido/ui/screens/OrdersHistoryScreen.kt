@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,7 @@ import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.viewmodels.OrderHistoryListViewModel
 
 @Composable
-fun OrderHistoryScreen() {
+fun OrdersHistoryScreen(onNavigateToDetailedOrder: (Int) -> Unit) {
     val viewModel: OrderHistoryListViewModel = koinViewModel()
     val orderHistoryList = viewModel.orderHistoryList.collectAsState()
     val listState = rememberLazyListState()
@@ -64,7 +65,10 @@ fun OrderHistoryScreen() {
                     .padding(bottom = 10.dp)
             ) {
                 itemsIndexed(orderHistoryList.value) { index, order ->
-                    OrderComponent(order)
+                    OrderComponent(
+                        order,
+                        onNavigateToDetailedOrder
+                    )
                     if (index < orderHistoryList.value.lastIndex) ListDivider()
                 }
             }
@@ -80,7 +84,10 @@ fun OrderHistoryScreen() {
 }
 
 @Composable
-private fun OrderComponent(order: BaseOrderHistoryModel) {
+private fun OrderComponent(
+    order: BaseOrderHistoryModel,
+    onNavigateToDetails: (Int) -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(horizontal = 20.dp)
@@ -96,7 +103,12 @@ private fun OrderComponent(order: BaseOrderHistoryModel) {
         Text(
             text = stringResource(R.string.see_details).uppercase(),
             style = Typography.bodyLarge,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.clickable(
+                onClick = {
+                    onNavigateToDetails(order.orderNumber)
+                }
+            )
         )
     }
 }
@@ -113,5 +125,5 @@ fun OrderHistoryTitle() {
 @Composable
 @Preview
 private fun OrderHistoryScreenPreview() {
-    OrderHistoryScreen()
+    OrdersHistoryScreen({})
 }

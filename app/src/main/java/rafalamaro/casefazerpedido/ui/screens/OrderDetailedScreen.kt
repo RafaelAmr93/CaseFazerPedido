@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,13 +15,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.koinViewModel
 import rafalamaro.casefazerpedido.R
 import rafalamaro.casefazerpedido.ui.components.ProductList
 import rafalamaro.casefazerpedido.ui.components.productList
 import rafalamaro.casefazerpedido.ui.theme.Typography
+import rafalamaro.casefazerpedido.viewmodels.OrderHistoryListViewModel
 
 @Composable
-fun OrderHistoryDetailsScreen() {
+fun OrderDetailedScreen(orderNumber: Int) {
+    val viewModel: OrderHistoryListViewModel = koinViewModel()
+    val orderModel = viewModel.orderDetailed.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.getOrderDetails(orderNumber)
+    }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -27,9 +36,12 @@ fun OrderHistoryDetailsScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        CurrentOrderNumber(1, "Rafael")
+        CurrentOrderNumber(
+            orderModel.value?.id ?: 0,
+            orderModel.value?.clientName ?: ""
+        )
         ProductListTitle()
-        ProductList(productList)
+        ProductList(orderModel.value?.productsList?.productsList ?: emptyList())
     }
 }
 
@@ -60,5 +72,5 @@ private fun ProductListTitle() {
 @Composable
 @Preview
 private fun OrderHistoryDetailsScreenPreview() {
-    OrderHistoryDetailsScreen()
+    OrderDetailedScreen(0)
 }

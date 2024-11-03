@@ -4,6 +4,7 @@ import rafalamaro.casefazerpedido.database.OrdersHistoryDao
 import rafalamaro.casefazerpedido.database.toModel
 import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
 import rafalamaro.casefazerpedido.model.OrderModel
+import rafalamaro.casefazerpedido.model.ProductModel
 import rafalamaro.casefazerpedido.model.toEntity
 
 class OrdersHistoryLocalDatasourceImpl(
@@ -11,6 +12,10 @@ class OrdersHistoryLocalDatasourceImpl(
 ) : IOrdersHistoryLocalDatasource {
     override suspend fun getOrderHistoryList(): List<BaseOrderHistoryModel> {
         return dao.getOrdersHistoryList().map { it.toModel() }
+    }
+
+    override suspend fun getOrderDetailed(orderNumber: Int): OrderModel {
+        return dao.getOrderDetailed(orderNumber).toModel()
     }
 
     override suspend fun insertOrder(order: OrderModel) {

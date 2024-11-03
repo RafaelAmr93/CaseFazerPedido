@@ -9,7 +9,7 @@ import rafalamaro.casefazerpedido.model.ProductsListModel
 
 @Entity
 data class BaseOrdersHistoryEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val id: Int = 0,
     @ColumnInfo("client_name") val clientName: String
 )
 

@@ -9,6 +9,9 @@ interface OrdersHistoryDao {
     @Query("SELECT o.id, o.client_name FROM orders o")
     fun getOrdersHistoryList(): List<BaseOrdersHistoryEntity>
 
+    @Query("SELECT * FROM orders WHERE id = :orderNumber")
+    fun getOrderDetailed(orderNumber: Int): OrdersHistoryEntity
+
     @Insert
     fun insertOrder(order: OrdersHistoryEntity)
 }

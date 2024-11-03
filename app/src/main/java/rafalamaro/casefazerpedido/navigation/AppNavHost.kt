@@ -11,7 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import rafalamaro.casefazerpedido.ui.screens.MainScreen
-import rafalamaro.casefazerpedido.ui.screens.OrderHistoryScreen
+import rafalamaro.casefazerpedido.ui.screens.OrderDetailedScreen
+import rafalamaro.casefazerpedido.ui.screens.OrdersHistoryScreen
 import rafalamaro.casefazerpedido.ui.screens.PlaceOrderScreen
 
 @Composable
@@ -24,43 +25,27 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             Routes.MAIN.route,
             arguments = listOf(navArgument("orderPlaced") { type = NavType.BoolType }),
             exitTransition = {
-                when (targetState.destination.route) {
-                    Routes.ORDER_HISTORY.route -> slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
-                        animationSpec = tween(700, easing = LinearEasing)
-                    )
-
-                    Routes.PLACE_ORDER.route -> slideOutOfContainer(
+                slideOutOfContainer(
                         AnimatedContentTransitionScope.SlideDirection.Left,
                         animationSpec = tween(700, easing = LinearEasing)
                     )
-
-                    else -> null
-                }
             },
             popEnterTransition = {
-                when (initialState.destination.route) {
-                    Routes.ORDER_HISTORY.route -> slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(500, easing = LinearEasing)
-                    )
-
-                    Routes.PLACE_ORDER.route -> slideIntoContainer(
+                    slideIntoContainer(
                         AnimatedContentTransitionScope.SlideDirection.Right,
                         animationSpec = tween(500, easing = LinearEasing)
                     )
 
-                    else -> null
-                }
             }
         ) { backStackEntry ->
             val orderPlaced = backStackEntry.arguments?.getBoolean("orderPlaced") ?: false
             MainScreen(
-                onNavigateToOrderHistory = { navController.navigate(Routes.ORDER_HISTORY.route) },
+                onNavigateToOrderHistory = { navController.navigate(Routes.ORDER_HISTORY_LIST.route) },
                 onNavigateToPlaceOrder = { navController.navigate(Routes.PLACE_ORDER.route) },
                 orderPlaced
             )
         }
+
         composable(Routes.PLACE_ORDER.route) {
             PlaceOrderScreen(
                 onOrderPlaced = { placed ->
@@ -72,8 +57,41 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
                 }
             )
         }
-        composable(Routes.ORDER_HISTORY.route) {
-            OrderHistoryScreen()
+
+        composable(
+            route = Routes.ORDER_HISTORY_LIST.route,
+            exitTransition = {
+                if (targetState.destination.route == Routes.DETAILED_ORDER.route) {
+                    slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        animationSpec = tween(700, easing = LinearEasing)
+                    )
+                } else {
+                    null
+                }
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(500, easing = LinearEasing)
+                )
+
+            }
+        ) {
+            OrdersHistoryScreen(
+                onNavigateToDetailedOrder = { orderNumber ->
+                    navController.navigate(detailedOrderRouteWithArguments(orderNumber))
+                }
+            )
+        }
+
+        composable(
+            route = Routes.DETAILED_ORDER.route,
+            arguments = listOf(navArgument("orderNumber") { type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val orderNumber = backStackEntry.arguments?.getInt("orderNumber") ?: 0
+            OrderDetailedScreen(orderNumber)
         }
     }
 }
