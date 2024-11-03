@@ -8,6 +8,6 @@ interface IOrdersHistoryLocalDatasource {
     suspend fun getOrderHistoryList(): List<BaseOrderHistoryModel>
     suspend fun getOrderDetailed(orderNumber: Int): OrderModel
     suspend fun insertOrder(order: OrderModel)
-    suspend fun getOrdersCount(): Flow<Int>
-    suspend fun getTotalSales(): Flow<Double>
+    suspend fun getOrdersCount(): Flow<Int?>
+    suspend fun getTotalSales(): Flow<Double?>
 }

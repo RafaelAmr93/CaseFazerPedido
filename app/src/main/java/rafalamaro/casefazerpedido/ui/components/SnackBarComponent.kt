@@ -37,7 +37,7 @@ fun SnackBarComponent(type: SnackBarType) {
                     elevation = 8.dp,
                     shape = RoundedCornerShape(16.dp)
                 )
-                .background(Color.White)
+                .background(Color(0xFFFAFAFA))
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -68,5 +68,7 @@ private fun SnackBarComponentPreview() {
     ) {
         SnackBarComponent(SnackBarType.ProductAdded)
         SnackBarComponent(SnackBarType.MissingFields)
+        SnackBarComponent(SnackBarType.OrderPlaced)
+        SnackBarComponent(SnackBarType.EmptyProductsList)
     }
 }

@@ -14,31 +14,26 @@ class MainScreenViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _ordersCount = MutableStateFlow(0)
-    val ordersCount: StateFlow<Int> = _ordersCount.asStateFlow()
+    private val _ordersCount: MutableStateFlow<Int> = MutableStateFlow(0)
+    val ordersCount: StateFlow<Int?> = _ordersCount.asStateFlow()
 
-    private val _totalSales = MutableStateFlow(0.0)
-    val totalSales: StateFlow<Double> = _totalSales.asStateFlow()
+    private val _totalSales: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    val totalSales: StateFlow<Double?> = _totalSales.asStateFlow()
 
-    init {
-        getOrdersCount()
-        getTotalSales()
-    }
-
-    private fun getOrdersCount() {
+    internal fun getOrdersCount() {
         viewModelScope.launch(dispatcher) {
             orderHistoryLocalDatasource.getOrdersCount()
                 .collect { count ->
-                    _ordersCount.value = count
+                    _ordersCount.value = count ?: 0
                 }
         }
     }
 
-    private fun getTotalSales() {
+    internal fun getTotalSales() {
         viewModelScope.launch(dispatcher) {
             orderHistoryLocalDatasource.getTotalSales()
                 .collect { sales ->
-                    _totalSales.value = sales
+                    _totalSales.value = sales ?: 0.0
                 }
         }
     }

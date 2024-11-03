@@ -14,11 +14,24 @@ internal fun transformationTextOnly(
     }
 }
 
-internal fun transformationDigitsOnly(
+internal fun transformationIntegerOnly(
+    callback: () -> Unit
+) = InputTransformation.byValue { current, proposed ->
+    if (proposed.all { it.isDigit() }) {
+        proposed
+    } else {
+        callback()
+        current
+    }
+}
+
+
+internal fun transformationMonetaryOnly(
     callback: () -> Unit
 ) = InputTransformation.byValue { current, proposed ->
     if (proposed.all { it.isDigit() || it == ',' || it == '.'}) {
-        proposed
+        val transformed = proposed.replace(Regex(","), ".")
+        transformed
     } else {
         callback()
         current

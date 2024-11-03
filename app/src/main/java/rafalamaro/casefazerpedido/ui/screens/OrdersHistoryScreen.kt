@@ -59,17 +59,24 @@ fun OrdersHistoryScreen(onNavigateToDetailedOrder: (Int) -> Unit) {
             OrderHistoryTitle()
             LazyColumn(
                 state = listState,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White)
                     .padding(bottom = 10.dp)
             ) {
-                itemsIndexed(orderHistoryList.value) { index, order ->
-                    OrderComponent(
-                        order,
-                        onNavigateToDetailedOrder
-                    )
-                    if (index < orderHistoryList.value.lastIndex) ListDivider()
+                if (orderHistoryList.value.isEmpty()) {
+                    item {
+                        NoOrdersToShow()
+                    }
+                } else {
+                    itemsIndexed(orderHistoryList.value) { index, order ->
+                        OrderComponent(
+                            order,
+                            onNavigateToDetailedOrder
+                        )
+                        if (index < orderHistoryList.value.lastIndex) ListDivider()
+                    }
                 }
             }
         }
@@ -117,6 +124,15 @@ private fun OrderComponent(
 private fun OrderHistoryTitle() {
     Text(
         stringResource(R.string.order_history_title),
+        style = Typography.titleLarge,
+        modifier = Modifier.padding(bottom = 20.dp)
+    )
+}
+
+@Composable
+private fun NoOrdersToShow() {
+    Text(
+        stringResource(R.string.no_orders_to_show),
         style = Typography.titleLarge,
         modifier = Modifier.padding(bottom = 20.dp)
     )

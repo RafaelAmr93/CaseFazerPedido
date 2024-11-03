@@ -29,7 +29,8 @@ import rafalamaro.casefazerpedido.ui.components.CommonButton
 import rafalamaro.casefazerpedido.ui.components.CustomBaseTextField
 import rafalamaro.casefazerpedido.ui.components.ProductList
 import rafalamaro.casefazerpedido.ui.components.SnackBarComponent
-import rafalamaro.casefazerpedido.ui.components.transformationDigitsOnly
+import rafalamaro.casefazerpedido.ui.components.transformationIntegerOnly
+import rafalamaro.casefazerpedido.ui.components.transformationMonetaryOnly
 import rafalamaro.casefazerpedido.ui.components.transformationTextOnly
 import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.ui.uiStates.ButtonType
@@ -84,10 +85,10 @@ internal fun PlaceOrderScreen(
                         if (viewModel.checkForEmptyField()) {
                             viewModel.addProduct()
                             viewModel.updateSnackBarState(SnackBarType.ProductAdded)
+                            viewModel.clearAllText()
                         } else {
                             viewModel.updateSnackBarState(SnackBarType.MissingFields)
                         }
-                        viewModel.clearAllText()
                     },
                     type = ButtonType.Standard
                 )
@@ -161,7 +162,7 @@ private fun RowScope.ProductQuantity(fieldState: TextFieldState) {
     CustomBaseTextField(
         fieldName = stringResource(R.string.product_quantity),
         fieldState = fieldState,
-        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        transformation = transformationIntegerOnly { forbiddenCharactersTyped = true },
         forbiddenCharactersTyped = forbiddenCharactersTyped,
         modifier = Modifier.weight(1f)
     )
@@ -173,7 +174,7 @@ private fun RowScope.ProductValue(fieldState: TextFieldState) {
     CustomBaseTextField(
         fieldName = stringResource(R.string.product_price),
         fieldState = fieldState,
-        transformation = transformationDigitsOnly { forbiddenCharactersTyped = true },
+        transformation = transformationMonetaryOnly { forbiddenCharactersTyped = true },
         forbiddenCharactersTyped = forbiddenCharactersTyped,
         modifier = Modifier.weight(1f)
     )

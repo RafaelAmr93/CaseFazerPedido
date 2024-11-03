@@ -3,6 +3,7 @@ package rafalamaro.casefazerpedido.ui.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import rafalamaro.casefazerpedido.R
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
@@ -36,7 +38,10 @@ internal fun CustomBaseTextField(
                         onClearText = fieldState::clearText
                     )
                 },
-                inputTransformation = transformation
+                inputTransformation = transformation,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                )
             )
             if (forbiddenCharactersTyped) {
                 Text(

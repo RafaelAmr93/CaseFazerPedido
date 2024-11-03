@@ -31,7 +31,7 @@ internal fun CommonButton(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(elevation = 6.dp, shape = RoundedCornerShape(12.dp))
-            .background(type.color)
+            .background(type.backGroundColor)
             .clickable(
                 onClick = { onClick() },
                 indication = ripple(),
@@ -41,6 +41,7 @@ internal fun CommonButton(
         Text(
             text = text.uppercase(),
             style = Typography.titleMedium,
+            color = type.textColor,
             modifier = Modifier.padding(vertical = 12.dp)
         )
     }
