@@ -26,16 +26,15 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             arguments = listOf(navArgument("orderPlaced") { type = NavType.BoolType }),
             exitTransition = {
                 slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
-                        animationSpec = tween(700, easing = LinearEasing)
-                    )
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700, easing = LinearEasing)
+                )
             },
             popEnterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
-                        animationSpec = tween(500, easing = LinearEasing)
-                    )
-
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(500, easing = LinearEasing)
+                )
             }
         ) { backStackEntry ->
             val orderPlaced = backStackEntry.arguments?.getBoolean("orderPlaced") ?: false
