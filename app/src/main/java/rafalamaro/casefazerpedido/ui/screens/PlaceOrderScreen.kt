@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -36,7 +37,7 @@ import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.ui.uiStates.ButtonType
 import rafalamaro.casefazerpedido.ui.uiStates.ProductsListUiState
 import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
-import rafalamaro.casefazerpedido.viewmodels.PlaceOrderViewModel
+import rafalamaro.casefazerpedido.ui.viewmodels.PlaceOrderViewModel
 
 @Composable
 internal fun PlaceOrderScreen(
@@ -46,6 +47,7 @@ internal fun PlaceOrderScreen(
     val uiState by viewModel.productsList.collectAsState()
     val snackBarState by viewModel.snackBarState.collectAsState()
     var showSnackBar by remember { mutableStateOf(false) }
+    val keyboard = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(snackBarState) {
         showSnackBar = true
@@ -98,6 +100,7 @@ internal fun PlaceOrderScreen(
                         if (viewModel.isProductsListEmpty()) {
                             viewModel.updateSnackBarState(SnackBarType.EmptyProductsList)
                         } else {
+                            keyboard?.hide()
                             viewModel.placeOrder()
                             onOrderPlaced(true)
                         }
@@ -182,11 +185,8 @@ private fun RowScope.ProductValue(fieldState: TextFieldState) {
 
 @Composable
 private fun ProductDescription(fieldState: TextFieldState) {
-    var forbiddenCharactersTyped by remember { mutableStateOf(false) }
     CustomBaseTextField(
         fieldName = stringResource(R.string.product_description),
-        fieldState = fieldState,
-        transformation = transformationTextOnly { forbiddenCharactersTyped = true },
-        forbiddenCharactersTyped = forbiddenCharactersTyped
+        fieldState = fieldState
     )
 }

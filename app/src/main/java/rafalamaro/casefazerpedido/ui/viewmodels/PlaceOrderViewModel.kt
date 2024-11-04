@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido.viewmodels
+package rafalamaro.casefazerpedido.ui.viewmodels
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
@@ -8,15 +8,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import rafalamaro.casefazerpedido.datasource.IOrdersHistoryLocalDatasource
-import rafalamaro.casefazerpedido.model.OrderModel
-import rafalamaro.casefazerpedido.model.ProductModel
-import rafalamaro.casefazerpedido.model.ProductsListModel
+import rafalamaro.casefazerpedido.data.model.OrderModel
+import rafalamaro.casefazerpedido.data.model.ProductModel
+import rafalamaro.casefazerpedido.data.model.ProductsListModel
+import rafalamaro.casefazerpedido.domain.contracts.IInsertOrderUseCase
 import rafalamaro.casefazerpedido.ui.uiStates.ProductsListUiState
 import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 
 class PlaceOrderViewModel(
-    private val ordersHistoryLocalDatasource: IOrdersHistoryLocalDatasource,
+    private val insertOrderUseCase: IInsertOrderUseCase,
     private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     internal val clientName = TextFieldState()
@@ -45,7 +45,7 @@ class PlaceOrderViewModel(
                 ),
                 orderTotalValue = getOrderTotalValue()
             )
-            ordersHistoryLocalDatasource.insertOrder(order)
+            insertOrderUseCase.insertOrder(order)
         }
     }
 

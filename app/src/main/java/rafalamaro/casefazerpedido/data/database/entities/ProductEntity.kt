@@ -1,7 +1,7 @@
-package rafalamaro.casefazerpedido.database
+package rafalamaro.casefazerpedido.data.database.entities
 
 import androidx.room.Entity
-import rafalamaro.casefazerpedido.model.ProductModel
+import rafalamaro.casefazerpedido.data.model.ProductModel
 
 @Entity
 data class ProductEntity(

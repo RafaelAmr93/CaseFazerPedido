@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido.model
+package rafalamaro.casefazerpedido.data.model
 
 data class BaseOrderHistoryModel(
     val clientName: String,

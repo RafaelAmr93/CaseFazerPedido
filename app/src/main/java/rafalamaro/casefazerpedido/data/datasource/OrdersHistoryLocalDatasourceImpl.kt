@@ -1,11 +1,11 @@
-package rafalamaro.casefazerpedido.datasource
+package rafalamaro.casefazerpedido.data.datasource
 
 import kotlinx.coroutines.flow.Flow
-import rafalamaro.casefazerpedido.database.OrdersHistoryDao
-import rafalamaro.casefazerpedido.database.toModel
-import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
-import rafalamaro.casefazerpedido.model.OrderModel
-import rafalamaro.casefazerpedido.model.toEntity
+import rafalamaro.casefazerpedido.data.database.OrdersHistoryDao
+import rafalamaro.casefazerpedido.data.database.entities.toModel
+import rafalamaro.casefazerpedido.data.model.BaseOrderHistoryModel
+import rafalamaro.casefazerpedido.data.model.OrderModel
+import rafalamaro.casefazerpedido.data.model.toEntity
 
 class OrdersHistoryLocalDatasourceImpl(
     private val dao: OrdersHistoryDao

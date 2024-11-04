@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
+import rafalamaro.casefazerpedido.di.appModule
 import rafalamaro.casefazerpedido.navigation.AppNavHost
 import rafalamaro.casefazerpedido.ui.theme.CaseFazerPedidoTheme
 

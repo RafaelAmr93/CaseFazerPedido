@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido.model
+package rafalamaro.casefazerpedido.data.model
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

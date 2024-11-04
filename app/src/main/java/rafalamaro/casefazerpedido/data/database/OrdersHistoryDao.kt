@@ -1,9 +1,11 @@
-package rafalamaro.casefazerpedido.database
+package rafalamaro.casefazerpedido.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import rafalamaro.casefazerpedido.data.database.entities.BaseOrdersHistoryEntity
+import rafalamaro.casefazerpedido.data.database.entities.OrdersHistoryEntity
 
 @Dao
 interface OrdersHistoryDao {

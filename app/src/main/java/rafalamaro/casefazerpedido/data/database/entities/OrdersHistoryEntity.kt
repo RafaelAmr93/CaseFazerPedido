@@ -1,10 +1,10 @@
-package rafalamaro.casefazerpedido.database
+package rafalamaro.casefazerpedido.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import rafalamaro.casefazerpedido.model.OrderModel
-import rafalamaro.casefazerpedido.model.ProductsListModel
+import rafalamaro.casefazerpedido.data.model.OrderModel
+import rafalamaro.casefazerpedido.data.model.ProductsListModel
 
 @Entity(tableName = "orders")
 data class OrdersHistoryEntity(

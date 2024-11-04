@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import rafalamaro.casefazerpedido.R
-import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
+import rafalamaro.casefazerpedido.data.model.BaseOrderHistoryModel
 import rafalamaro.casefazerpedido.ui.components.BackToTopButton
 import rafalamaro.casefazerpedido.ui.components.ListDivider
 import rafalamaro.casefazerpedido.ui.theme.Typography
-import rafalamaro.casefazerpedido.viewmodels.OrderHistoryListViewModel
+import rafalamaro.casefazerpedido.ui.viewmodels.OrderHistoryListViewModel
 
 @Composable
 fun OrdersHistoryScreen(onNavigateToDetailedOrder: (Int) -> Unit) {
@@ -59,7 +59,6 @@ fun OrdersHistoryScreen(onNavigateToDetailedOrder: (Int) -> Unit) {
             OrderHistoryTitle()
             LazyColumn(
                 state = listState,
-                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.White)

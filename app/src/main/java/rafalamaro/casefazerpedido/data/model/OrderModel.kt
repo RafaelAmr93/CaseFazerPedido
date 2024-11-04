@@ -1,6 +1,6 @@
-package rafalamaro.casefazerpedido.model
+package rafalamaro.casefazerpedido.data.model
 
-import rafalamaro.casefazerpedido.database.OrdersHistoryEntity
+import rafalamaro.casefazerpedido.data.database.entities.OrdersHistoryEntity
 
 data class OrderModel(
     val id: Int? = null,

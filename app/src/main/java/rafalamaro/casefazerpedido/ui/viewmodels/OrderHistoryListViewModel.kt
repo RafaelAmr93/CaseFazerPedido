@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido.viewmodels
+package rafalamaro.casefazerpedido.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,13 +6,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import rafalamaro.casefazerpedido.datasource.IOrdersHistoryLocalDatasource
-import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
-import rafalamaro.casefazerpedido.model.OrderModel
-import rafalamaro.casefazerpedido.model.ProductModel
+import rafalamaro.casefazerpedido.data.model.BaseOrderHistoryModel
+import rafalamaro.casefazerpedido.data.model.OrderModel
+import rafalamaro.casefazerpedido.domain.contracts.IGetOrderDetailedUseCase
+import rafalamaro.casefazerpedido.domain.contracts.IGetOrderHistoryListUseCase
 
 class OrderHistoryListViewModel(
-    private val orderHistoryLocalDatasource: IOrdersHistoryLocalDatasource,
+    private val getOrdersHistoryListUseCase: IGetOrderHistoryListUseCase,
+    private val getOrderDetailedUseCase: IGetOrderDetailedUseCase,
     private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -26,14 +27,14 @@ class OrderHistoryListViewModel(
 
     internal fun getOrdersHistoryList() {
         viewModelScope.launch(ioDispatcher) {
-            _orderHistoryList.value = orderHistoryLocalDatasource.getOrderHistoryList()
+            _orderHistoryList.value = getOrdersHistoryListUseCase.getOrderHistoryList()
 
         }
     }
 
     internal fun getOrderDetails(orderNumber: Int) {
         viewModelScope.launch(ioDispatcher) {
-            _orderDetailed.value = orderHistoryLocalDatasource.getOrderDetailed(orderNumber)
+            _orderDetailed.value = getOrderDetailedUseCase.getOrderDetailed(orderNumber)
         }
     }
 }

@@ -20,8 +20,8 @@ import rafalamaro.casefazerpedido.ui.theme.Typography
 internal fun CustomBaseTextField(
     fieldName: String,
     fieldState: TextFieldState,
-    transformation: InputTransformation,
-    forbiddenCharactersTyped: Boolean,
+    transformation: InputTransformation? = null,
+    forbiddenCharactersTyped: Boolean? = null,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -43,7 +43,7 @@ internal fun CustomBaseTextField(
                     imeAction = ImeAction.Next
                 )
             )
-            if (forbiddenCharactersTyped) {
+            if (forbiddenCharactersTyped == true) {
                 Text(
                     text = stringResource(R.string.characters_forbidden),
                     style = Typography.bodySmall,

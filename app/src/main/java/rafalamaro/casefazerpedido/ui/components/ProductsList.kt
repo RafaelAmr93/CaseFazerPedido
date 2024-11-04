@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import rafalamaro.casefazerpedido.R
-import rafalamaro.casefazerpedido.model.ProductModel
+import rafalamaro.casefazerpedido.data.model.ProductModel
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable

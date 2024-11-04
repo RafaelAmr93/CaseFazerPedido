@@ -1,4 +1,4 @@
-package rafalamaro.casefazerpedido.database
+package rafalamaro.casefazerpedido.data.database
 
 import android.content.Context
 import androidx.room.Room

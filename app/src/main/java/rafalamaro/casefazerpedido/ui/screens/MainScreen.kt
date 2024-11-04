@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +37,8 @@ import rafalamaro.casefazerpedido.ui.components.SnackBarComponent
 import rafalamaro.casefazerpedido.ui.uiStates.SnackBarType
 import rafalamaro.casefazerpedido.ui.theme.Typography
 import rafalamaro.casefazerpedido.ui.uiStates.ButtonType
-import rafalamaro.casefazerpedido.viewmodels.MainScreenViewModel
+import rafalamaro.casefazerpedido.ui.uiStates.MainScreenUiState
+import rafalamaro.casefazerpedido.ui.viewmodels.MainScreenViewModel
 
 @Composable
 internal fun MainScreen(
@@ -45,8 +47,7 @@ internal fun MainScreen(
     orderPlaced: Boolean
 ) {
     val viewModel: MainScreenViewModel = koinViewModel()
-    val ordersCount by viewModel.ordersCount.collectAsState()
-    val totalSales by viewModel.totalSales.collectAsState()
+    val uiState by viewModel.mainScreenUiState.collectAsState()
     var showSnackBar by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -65,10 +66,7 @@ internal fun MainScreen(
             .background(color = Color.White)
     ) {
         Header()
-        Body(
-            ordersCount ?: 0,
-            totalSales ?: 0.0
-        )
+        Body(uiState)
         Footer(
             onNavigateToOrderHistory = onNavigateToOrderHistory,
             onNavigateToPlaceOrder = onNavigateToPlaceOrder
@@ -112,18 +110,23 @@ private fun BoxScope.Header() {
 }
 
 @Composable
-private fun BoxScope.Body(
-    ordersCount: Int,
-    totalSales: Double
-) {
+private fun BoxScope.Body(uiState: MainScreenUiState) {
     Column(
         modifier = Modifier
             .align(Alignment.Center)
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        TotalOrders(ordersCount)
-        TotalSales(totalSales)
+        when (uiState) {
+            is MainScreenUiState.Loading -> {
+                TotalOrders(null)
+                TotalSales(null)
+            }
+            is MainScreenUiState.Loaded -> {
+                TotalOrders(uiState.ordersCount)
+                TotalSales(uiState.totalSales)
+            }
+        }
     }
 }
 
@@ -160,45 +163,67 @@ private fun BoxScope.Footer(
 }
 
 @Composable
-private fun TotalOrders(ordersCount: Int) {
+private fun TotalOrders(ordersCount: Int?) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.total_orders),
             style = Typography.titleMedium
         )
-        Text(
-            text = stringResource(R.string.order_symbol, ordersCount),
-            fontSize = 50.sp,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        HorizontalDivider(
-            thickness = 2.dp
-        )
+        if (ordersCount == null) {
+            LoadingAnimation()
+        } else {
+            Text(
+                text = stringResource(R.string.order_symbol, ordersCount),
+                fontSize = 50.sp,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+        Divider()
     }
 }
 
 @Composable
-private fun TotalSales(value: Double) {
+private fun TotalSales(value: Double?) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.total_sales),
             style = Typography.titleMedium
         )
-        Text(
-            text = stringResource(R.string.money_symbol, value),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            fontSize = 50.sp
-        )
-        HorizontalDivider(
-            thickness = 2.dp
-        )
+        if (value == null) {
+            LoadingAnimation()
+        } else {
+            Text(
+                text = stringResource(R.string.money_symbol, value),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontSize = 50.sp
+            )
+        }
+        Divider()
     }
+}
+
+@Composable
+private fun Divider() {
+    HorizontalDivider(
+        thickness = 2.dp
+    )
+}
+
+@Composable
+private fun LoadingAnimation() {
+    CircularProgressIndicator(
+        modifier = Modifier.size(50.dp),
+        color = Color.Black,
+        trackColor = Color.LightGray
+    )
 }
 
 @Composable

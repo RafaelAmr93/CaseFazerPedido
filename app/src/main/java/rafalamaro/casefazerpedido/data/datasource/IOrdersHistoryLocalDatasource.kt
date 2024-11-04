@@ -1,8 +1,8 @@
-package rafalamaro.casefazerpedido.datasource
+package rafalamaro.casefazerpedido.data.datasource
 
 import kotlinx.coroutines.flow.Flow
-import rafalamaro.casefazerpedido.model.BaseOrderHistoryModel
-import rafalamaro.casefazerpedido.model.OrderModel
+import rafalamaro.casefazerpedido.data.model.BaseOrderHistoryModel
+import rafalamaro.casefazerpedido.data.model.OrderModel
 
 interface IOrdersHistoryLocalDatasource {
     suspend fun getOrderHistoryList(): List<BaseOrderHistoryModel>

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import rafalamaro.casefazerpedido.R
-import rafalamaro.casefazerpedido.model.ProductModel
+import rafalamaro.casefazerpedido.data.model.ProductModel
 import rafalamaro.casefazerpedido.ui.theme.Typography
 
 @Composable

@@ -18,7 +18,7 @@ import org.koin.androidx.compose.koinViewModel
 import rafalamaro.casefazerpedido.R
 import rafalamaro.casefazerpedido.ui.components.ProductList
 import rafalamaro.casefazerpedido.ui.theme.Typography
-import rafalamaro.casefazerpedido.viewmodels.OrderHistoryListViewModel
+import rafalamaro.casefazerpedido.ui.viewmodels.OrderHistoryListViewModel
 
 @Composable
 fun OrderDetailedScreen(orderNumber: Int) {
